@@ -4,11 +4,12 @@
   "version": "0.0.0",
   "type": "module",
   "scripts": {
-    "dev": "vite",
+    "dev": "vite --host",
     "build": "vue-tsc && vite build",
     "preview": "vite preview"
   },
   "dependencies": {
+    "@avatsaev/three-orbitcontrols-ts": "^0.1.5",
     "@types/three": "^0.158.2",
     "@vueuse/core": "^10.5.0",
     "load-bmfont": "^1.4.1",
