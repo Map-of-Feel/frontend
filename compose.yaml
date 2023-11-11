@@ -1,0 +1,13 @@
+version: "3.4"
+services:
+  map-of-feel-fe:
+    image: node:20-alpine3.17
+    container_name: map_feel_fe
+    command: npm run dev
+    ports:
+      - 8000:8000
+    working_dir: /srv/app
+    volumes:
+      - type: bind
+        source: ./
+        target: /srv/app
