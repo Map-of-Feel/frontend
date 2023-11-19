@@ -1,6 +1,6 @@
 # map of feel frontend
 
-to run dockerized development server:
+To run dockerized development server:
 ```sh
 $ docker compose up --build -d
 ```

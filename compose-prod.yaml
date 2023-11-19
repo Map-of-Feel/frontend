@@ -1,8 +1,8 @@
-version: '3.7'
+version: "3.7"
 services:
   frontend-prod:
     container_name: frontend-prod
     build:
       context: .
     ports:
-      - '8080:80'
+      - "8080:80"
