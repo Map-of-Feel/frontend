@@ -9,12 +9,10 @@
     "preview": "vite preview"
   },
   "dependencies": {
-    "@avatsaev/three-orbitcontrols-ts": "^0.1.5",
     "@types/three": "^0.158.2",
     "@vueuse/core": "^10.5.0",
-    "load-bmfont": "^1.4.1",
     "three": "^0.158.0",
-    "three-bmfont-text": "^3.0.1",
+    "troika-three-text": "^0.49.0",
     "vue": "^3.3.4"
   },
   "devDependencies": {
