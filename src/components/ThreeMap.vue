@@ -1,7 +1,7 @@
 <script setup lang="ts">
 
 import {
-  Color,
+  Color, Group,
   Mesh,
   MeshBasicMaterial,
   PerspectiveCamera,
@@ -18,22 +18,23 @@ import {Text} from 'troika-three-text'
 
 const {width, height} = useWindowSize()
 const aspectRatio = computed(() => width.value / height.value)
-const raycaster = new Raycaster()
-const emotionObjects = []
+const output = ref<HTMLCanvasElement | null>(null)
+
+const rayCaster = new Raycaster()
+const emotionObjects: Group[] = []
 let renderer: WebGLRenderer
 let camera: PerspectiveCamera
 let controls: OrbitControls
 
-
 watch(aspectRatio, updateCamera)
 watch(aspectRatio, updateRenderer)
 
-function updateCamera() {
+function updateRenderer() {
   renderer.setSize(width.value, height.value, true)
   renderer.setPixelRatio(devicePixelRatio)
 }
 
-function updateRenderer() {
+function updateCamera() {
   controls.update()
   camera.aspect = aspectRatio.value
   camera.updateProjectionMatrix()
@@ -43,40 +44,10 @@ function updateRenderer() {
 const scene = new Scene()
 scene.background = new Color(0xffffff)
 camera = new PerspectiveCamera(45, aspectRatio.value, 0.1, 1000)
-camera.position.z = 100
+camera.position.z = 300
 scene.add(camera)
 
-// function generateGradientMaterial(colorFrom: ColorRepresentation, colorTo: ColorRepresentation) {
-//   return new ShaderMaterial({
-//     uniforms: {
-//       color1: {
-//         value: new Color(colorFrom)
-//       },
-//       color2: {
-//         value: new Color(colorTo)
-//       }
-//     },
-//     vertexShader: `
-//     varying vec2 vUv;
-//
-//     void main() {
-//       vUv = uv;
-//       gl_Position = projectionMatrix * modelViewMatrix * vec4(position,1.0);
-//     }
-//   `,
-//     fragmentShader: `
-//     uniform vec3 color1;
-//     uniform vec3 color2;
-//     varying vec2 vUv;
-//
-//     void main() {
-//       gl_FragColor = vec4(mix(color1, color2, vUv.y), .1);
-//     }
-//   `,
-//     side: DoubleSide
-//   })
-// }
-// const mat = generateGradientMaterial(0x0eeaa, 0x008080)
+
 function generateEmotionCircle(emotion: string, color: Color) {
   const text = new Text()
   text.text = emotion
@@ -85,23 +56,20 @@ function generateEmotionCircle(emotion: string, color: Color) {
   text.color = 0x000000
   text.anchorX = 'center'
   text.anchorY = 'middle'
-  const ring = new Mesh(
-      new RingGeometry(1, 1, 64, 1),
-      new MeshBasicMaterial({
-        color: color,
-      })
-  )
+  const emotionCircle = new Group()
 
-  console.log(ring)
   text.sync(() => {
     const textWidth = text.geometry.boundingSphere?.radius
-    ring.geometry = new RingGeometry(0, textWidth + 1, 64, 1)
-    ring.add(text)
+    emotionCircle.add(new Mesh(
+        new RingGeometry(0, textWidth + 1, 64, 1),
+        new MeshBasicMaterial({
+          color: color,
+        })
+    ))
+    emotionCircle.add(text)
   })
-  return ring
+  return emotionCircle
 }
-
-
 
 for (let i = 0; i < 5; i++) {
   let genCircle = generateEmotionCircle(
@@ -112,22 +80,19 @@ for (let i = 0; i < 5; i++) {
   emotionObjects.push(genCircle)
 }
 
-function handleCanvasClick(event ){
+function handleCanvasClick(event: MouseEvent ){
 const mouse = new Vector2()
-  mouse.x = ( event.clientX / window.innerWidth ) * 2 - 1;
-  mouse.y = - ( event.clientY / window.innerHeight ) * 2 + 1;
-  raycaster.setFromCamera( mouse, camera );
+  mouse.x = ( event.clientX / window.innerWidth ) * 2 - 1
+  mouse.y = - ( event.clientY / window.innerHeight ) * 2 + 1
+  rayCaster.setFromCamera( mouse, camera )
   emotionObjects.forEach((obj) => {
-    const intersection = raycaster.intersectObject( obj );
-
+    const intersection = rayCaster.intersectObject(obj)
     if ( intersection.length > 0 ) {
-      console.log(intersection[0])
+      console.log(intersection[0].object)
     }
   })
-
 }
 
-const output = ref<HTMLCanvasElement | null>(null)
 const loop = () => {
   controls.update()
   renderer.render(scene, camera)
@@ -152,8 +117,8 @@ onMounted(() => {
   updateRenderer()
   loop()
 })
-
 </script>
+
 <template>
   <div id="instructions">
     <div>Scroll: zoom,</div>
