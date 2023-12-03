@@ -1,0 +1,51 @@
+[
+  {
+    "name": "Happiness",
+    "color": 9095462,
+    "description": "Happiness \n  Lorem ipsum dolor sit amet, consectetur adipisicing elit. Accusamus animi cupkeyitate dolores dolorum eligendi facilis molestiae, natus nemo, nihil quia quis rem reprehenderit, unde velit vitae. Atque illum officia quis!",
+    "key": 0,
+    "x": 0,
+    "y": 200
+  },
+  {
+    "name": "Anger",
+    "description": "Anger \n  Lorem ipsum dolor sit amet, consectetur adipisicing elit. Accusamus animi cupkeyitate dolores dolorum eligendi facilis molestiae, natus nemo, nihil quia quis rem reprehenderit, unde velit vitae. Atque illum officia quis!",
+    "color": 16734558,
+    "key": 1,
+    "x": -173.21,
+    "y": 100
+  },
+
+  {
+    "name": "Disgust",
+    "description": "Disgust \n  Lorem ipsum dolor sit amet, consectetur adipisicing elit. Accusamus animi cupkeyitate dolores dolorum eligendi facilis molestiae, natus nemo, nihil quia quis rem reprehenderit, unde velit vitae. Atque illum officia quis!",
+    "color": 16749132,
+    "key": 2,
+    "x": -173.21,
+    "y": -100
+  },
+  {
+    "name": "Sadness",
+    "description": "Sadness \n  Lorem ipsum dolor sit amet, consectetur adipisicing elit. Accusamus animi cupkeyitate dolores dolorum eligendi facilis molestiae, natus nemo, nihil quia quis rem reprehenderit, unde velit vitae. Atque illum officia quis!",
+    "color": 16763450,
+    "key": 3,
+    "x": 0,
+    "y": -200
+  },
+  {
+    "name": "Fear",
+    "description": "Fear \n  Lorem ipsum dolor sit amet, consectetur adipisicing elit. Accusamus animi cupkeyitate dolores dolorum eligendi facilis molestiae, natus nemo, nihil quia quis rem reprehenderit, unde velit vitae. Atque illum officia quis!",
+    "color": 1671876,
+    "key": 4,
+    "x": 173.21,
+    "y": -100
+  },
+  {
+    "name": "Surprise",
+    "description": "Surprise \n  Lorem ipsum dolor sit amet, consectetur adipisicing elit. Accusamus animi cupkeyitate dolores dolorum eligendi facilis molestiae, natus nemo, nihil quia quis rem reprehenderit, unde velit vitae. Atque illum officia quis!",
+    "color": 6966419,
+    "key": 5,
+    "x": 173.21,
+    "y": 100
+  }
+]
