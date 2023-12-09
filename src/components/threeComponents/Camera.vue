@@ -21,6 +21,6 @@ if (!renderer) {
 } else {
   camera = new PerspectiveCamera(props.fov, props.aspect, props.near, props.far)
   renderer.camera = camera
-  camera.position.z = 300
+  camera.position.z = 700
 }
 </script>

@@ -7,7 +7,10 @@ import {OrbitControls} from "three/examples/jsm/controls/OrbitControls";
 
 
 // const props = defineProps({})
-// const emit = defineEmits([])
+const emit = defineEmits<{
+  (event: 'clicked', key: number): void
+}>()
+
 let renderer: WebGLRenderer
 const rayCaster = new Raycaster()
 const {width, height} = useWindowSize()
@@ -38,7 +41,8 @@ function handleCanvasClick(event: MouseEvent ) {
   publicIF.scene.children.forEach((obj) => {
     const intersection = rayCaster.intersectObject(obj)
     if (intersection.length > 0) {
-      console.log(intersection[0].object)
+      console.log(intersection[0].object.parent?.userData.emotion.key)
+      emit('clicked', intersection[0].object.parent?.userData?.emotion.key)
     }
   })
 }
@@ -57,7 +61,7 @@ const loop = () => {
     controls = new OrbitControls(publicIF.camera, renderer.domElement)
     controls.enableRotate = false
     controls.minDistance = 0
-    controls.maxDistance = 500
+    controls.maxDistance = Infinity
     controls.enableZoom = true
     controls.zoomSpeed = 0.3
     controls.zoomToCursor = true
