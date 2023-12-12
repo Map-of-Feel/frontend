@@ -1,9 +1,12 @@
 <script setup lang="ts">
-import {Emotion} from "../../types/Emotion";
+import {Emotion, EmotionPercentage} from "../../types/Emotion";
 import {inject, watch} from "vue";
 import {Color, Group, Mesh, MeshBasicMaterial, RingGeometry} from "three";
 import {Text} from "troika-three-text";
 import {RendererInjectionKey} from "../../types/InjectionKeys";
+import {LineMaterial, LineMaterialParameters} from "three/examples/jsm/lines/LineMaterial";
+import {Line2} from "three/examples/jsm/lines/Line2";
+import {LineGeometry} from "three/examples/jsm/lines/LineGeometry";
 
 const props = defineProps<{ emotion: Emotion }>()
 const emit = defineEmits([])
@@ -24,8 +27,8 @@ watch(props.emotion, () => {
 })
 
 
-
 function generateEmotionCircle(emotion: Emotion) {
+  addLinesToGroup(emotion)
   emotionCircle.position.setX(emotion.x as number)
   emotionCircle.position.setY(emotion.y as number)
   emotionCircle.userData.emotion = props.emotion
@@ -46,6 +49,45 @@ function generateEmotionCircle(emotion: Emotion) {
     }
     emotionCircle.add(emotionsName)
   })
+}
+
+function addLinesToGroup(emotion: Emotion) {
+  if (emotion.percentages !== undefined) {
+    emotion.percentages
+        .filter((percentage: EmotionPercentage) => percentage.percentage > 0)
+        .forEach((percentageEmotion) => {
+          const geometry = new LineGeometry()
+          geometry.setPositions([
+            percentageEmotion.emotion.x - emotion.x || 0,
+            percentageEmotion.emotion.y - emotion.y || 0,
+            -0.1,
+            0,
+            0,
+            -0.1
+          ])
+          // geometry.setFromPoints([
+          //   new Vector3(
+          //       percentageEmotion.emotion.x,
+          //       percentageEmotion.emotion.y,
+          //       -0.1
+          //   ).sub(new Vector3(emotion.x, emotion.y)),
+          //   new Vector3(
+          //       0,
+          //       0,
+          //       -0.1
+          //   )
+          // ])
+          const material = new LineMaterial({
+            color: percentageEmotion.emotion.color,
+            linewidth: 0.0012,
+
+          } as LineMaterialParameters)
+          const line = new Line2(geometry, material)
+          line.computeLineDistances()
+          line.scale.set(1,1,1)
+          emotionCircle.add(line)
+        })
+  }
 }
 
 function generateTextObject(emotion: Emotion): Text {

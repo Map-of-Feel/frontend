@@ -4,8 +4,13 @@ export interface Emotion {
   name: string
   key: string | number
   description: string
-  x?: number
-  y?: number
+  x: number
+  y: number
   color?: ColorRepresentation
-  percentages?: { emotion: Emotion; percentage: number }[]
+  percentages?: EmotionPercentage[]
+}
+
+export interface EmotionPercentage {
+  emotion: Emotion
+  percentage: number
 }

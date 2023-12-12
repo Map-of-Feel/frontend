@@ -12,7 +12,7 @@ import {Vector3} from "three";
 
 let clickedEmotion = ref<Emotion>()
 const allEmotions: Ref<Emotion[]> = ref(baseEmotions)
-const examplePercentage = [.1, 0, 0, .25, 0, .65]
+const examplePercentage = [0.4,.125,.1,.25,0,.125]
 const exampleCompositeEmotion = {
   name: 'example',
   key: 123,
@@ -30,11 +30,17 @@ calculateEmotionsPosition(exampleCompositeEmotion)
 allEmotions.value.push(exampleCompositeEmotion)
 
 function calculateEmotionsPosition(emotion: Emotion) {
+  const r = 200
   const position = new Vector3()
   emotion.percentages?.forEach((percentage) =>{
     if(percentage.percentage > 0){
-      const scaledPosition = new Vector3(percentage.emotion.x, percentage.emotion.y, 0).multiplyScalar(percentage.percentage)
+      const scaledPosition = new Vector3(percentage.emotion.x, percentage.emotion.y, 0)
+          .sub(position)
+          .normalize()
+          .multiplyScalar(r * percentage.percentage)
       position.add(scaledPosition)
+
+      console.log(percentage.emotion.name, position, scaledPosition)
     }
   })
   emotion.x = position.x
